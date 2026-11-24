@@ -1,0 +1,14 @@
+#!/bin/sh
+# kutu: Git Bash / sh sarmalayici. py -3, python3, python sirasiyla denenir;
+# "python" Microsoft Store takma adi ise calismaz, bu yuzden surum sorgusuyla sinanir.
+dir=$(dirname "$0")
+for aday in "py -3" python3 python; do
+  if $aday -c "import sys; sys.exit(0 if sys.version_info[0] == 3 else 1)" >/dev/null 2>&1; then
+    exec $aday "$dir/kutu.py" "$@"
+  fi
+done
+for yol in "$LOCALAPPDATA"/Programs/Python/Python3*/python.exe /c/Python3*/python.exe; do
+  if [ -x "$yol" ]; then exec "$yol" "$dir/kutu.py" "$@"; fi
+done
+echo "kutu: Python 3 bulunamadi" >&2
+exit 127

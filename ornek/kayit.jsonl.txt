@@ -1,0 +1,4 @@
+{"id": "20261118-100000-00000000", "ts": "2026-11-18T10:02:00+03:00", "kimden": "danisman", "kime": "codex", "konu": "Kapı testi", "metin": "Merhaba Codex, bu kutu üzerinden ilk mesajım. Lütfen thread'i teyit et.", "durum": "gonderildi"}
+{"id": "20261118-110000-00000001", "ts": "2026-11-18T10:06:00+03:00", "kimden": "codex", "kime": "claude", "konu": "Yanıt", "metin": "Teyit: thread açık, mesajı aldım. Sonraki adım için plan hazır.", "durum": "gonderildi"}
+{"id": "20261118-120000-00000002", "ts": "2026-11-18T10:08:00+03:00", "kimden": "claude", "kime": "codex", "konu": "Not", "metin": "Not: bu aşamada yayın yok, yalnız yerel deneme.", "durum": "gonderildi"}
+{"id": "20261118-130000-00000003", "ts": "2026-11-18T10:10:00+03:00", "kimden": "danisman", "kime": "codex", "konu": "Tekrar", "metin": "Bu satır test amaçlı bir hata örneğidir.", "durum": "hata: codex çıkış kodu 1: thread bulunamadı"}

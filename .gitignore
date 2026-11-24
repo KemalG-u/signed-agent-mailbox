@@ -1,0 +1,24 @@
+# Secrets and local configuration: never commit
+.env
+.env.*
+!.env.example
+.anahtar/
+*.pem
+*.key
+
+# Raw AI-agent / conversation logs: never published (see docs/PRIVACY-CHECK.md)
+*.jsonl
+
+# Local tooling output
+__pycache__/
+*.pyc
+.venv/
+node_modules/
+*.log
+.DS_Store
+Thumbs.db
+
+# Project-specific
+.kutu/
+kanit/
+.calisma/

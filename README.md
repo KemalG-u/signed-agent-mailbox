@@ -1,0 +1,92 @@
+**English** | [Türkçe (tam belge)](README.tr.md)
+
+# kutu
+
+A small message box for command-line agent sessions, mainly Claude Code and Codex. Sessions leave messages for each
+other; every message is stored durably and rendered as a human-readable chat page. Each message can optionally be
+signed with the sender's key (HMAC-SHA256). Python 3, standard library only, no third-party packages.
+
+[![CI](https://github.com/KemalG-u/signed-agent-mailbox/actions/workflows/ci.yml/badge.svg)](https://github.com/KemalG-u/signed-agent-mailbox/actions/workflows/ci.yml)
+**License:** Apache-2.0
+
+Status: working personal tool, developed and run on Windows; the unit tests also run on Linux. The test suite uses temporary folders and mocked subprocesses; it
+does not call real agent tools. Tool adapters other than the ones marked as working in the table below were written
+from each tool's documented one-shot command and were not run against the real tool.
+
+## How it works
+
+- Codex side: the official `codex queue --thread <UUID> --message ...` command (codex-cli 0.169 or newer).
+- Claude Code side: the official cross-session messaging named pipe (Windows).
+- One-shot adapters: `claude-p`, `codex-exec`, `agy`, `hermes`, `hermes-http`, plus documented but untested
+  `opencode`, `gemini`, `copilot`, `cursor`.
+- A box is a folder with `kayit.jsonl` (machine log), `konusma.md` (human log), `ayar.json` (settings) and a generated
+  `konusma.html`.
+- Incoming text is always marked as data, not as instructions. Only a sender listed in `guvenilir_gonderenler` with a
+  valid signature gets the "authorised instruction" prefix.
+
+Known limits (details in `README.tr.md`): signing keys are plain files in the same user account, so the signature
+catches label spoofing and tampered lines but not an attacker with the same user rights; replaying an identical
+signed line is not prevented; "signature valid" only means the message passed through this bridge with that name's key.
+
+## Quick start
+
+```
+python kutu.py kur --kutu .kutu --codex-thread <codex-session-uuid>
+python kutu.py gonder --kime codex --kimden danisman --konu "Test" --metin "Hello" --kuru   # dry run, prints the command
+python kutu.py durum --kutu .kutu
+python kutu.py sayfa --kutu .kutu      # writes .kutu/konusma.html (no JavaScript, follows light/dark theme)
+```
+
+Command names are Turkish (`kur` = set up, `gonder` = send, `izle` = watch, `bekle` = wait for new messages,
+`durum` = status, `dogrula` = verify signatures, `anahtar-uret` = generate keys). `python kutu.py --help` lists all of
+them. The full guide, including the signing setup and the Windows pipe registration, is in `README.tr.md`.
+
+On Windows, `kutu.cmd` is a wrapper; in Git Bash use `./kutu`.
+
+## Tests
+
+```
+python -m unittest discover
+```
+
+Test results are shown by the CI badge above (Windows and Ubuntu, Python 3.12); the number of tests is not typed here.
+
+An end-to-end script (`uctan-uca.sh`, `uctan-uca.py`) calls the real tools installed on the machine and spends their
+quota; it skips steps whose paths are not given through environment variables. Its results are written to a local
+`kanit/` folder (git-ignored, not published); the recorded results of the author's run are summarised in `OKU.tr.md`.
+
+## Adapter status (run of 2026-11-18)
+
+| Adapter | Result |
+|---|---|
+| `claude-p` | worked (claude 2.1.327) |
+| `codex-exec` | worked (codex-cli 0.169.0) |
+| `agy` | worked (agy 1.5.11) |
+| `hermes` | worked (Hermes 0.23.0) |
+| `hermes-http` | did not work: API server was off; client only tested against a fake server |
+| `opencode`, `gemini`, `copilot`, `cursor` | not installed, not tried |
+
+## Türkçe özet
+
+`kutu`, Claude Code ve Codex gibi komut satırı ajan oturumlarının birbirine mesaj bıraktığı küçük bir haberleşme
+kutusudur. Tüm mesajlar kalıcı kaydedilir, okunabilir bir sohbet sayfasına dönüşür ve istenirse HMAC-SHA256 ile
+imzalanır. Yalnız Python 3 standart kütüphanesi gerekir. Ayrıntılı Türkçe kılavuz (kurulum, imza, güvenilir gönderen,
+geçiş, bilinen sınırlar): [README.tr.md](README.tr.md). Birim testler: `python -m unittest discover`.
+
+## How it was built
+
+The code, tests and documents were written with AI coding agents (Claude Code) under the direction and review of the
+repository owner. The message format of Claude Code's cross-session pipe is not officially documented; it was learned
+from the open-source `fujibee/agmsg` project and may change between Claude Code versions.
+
+- How AI tools were used and what was and was not verified: [docs/AI-USE.md](docs/AI-USE.md)
+- Experiment notes (adapter results, root causes, fixes): [OKU.tr.md](OKU.tr.md)
+- Migration from an unsigned box to a signed one: [GECIS.tr.md](GECIS.tr.md)
+
+## Contributing and security
+
+See [CONTRIBUTING.md](CONTRIBUTING.md), [CODE_OF_CONDUCT.md](CODE_OF_CONDUCT.md) and [SECURITY.md](SECURITY.md). Release notes: [CHANGELOG.md](CHANGELOG.md).
+
+## License
+
+Apache-2.0. See [LICENSE](LICENSE) and [NOTICE](NOTICE).
