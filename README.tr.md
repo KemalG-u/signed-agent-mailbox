@@ -107,8 +107,8 @@ Bir mesaj ancak şu ikisi birden doğruysa `[YETKİLİ TALİMAT: imza geçerli, 
 gönderen listede VE imza GEÇERLİ (gönderenin anahtarı var, HMAC doğru). İmzasız, anahtarsız, geçersiz imzalı,
 listede olmayan gönderenin mesajı ve boş liste eski güvenilmeyen ön ekle gider. İmza `kimden` alanını da kapsar ve
 anahtar `kimden` adına göre seçilir; başka birinin imzalı mesajında `kimden`'i değiştirmek ya da yalnız etiketi
-yazmak yetki vermez. Ön ek yetkili talimatta da Kemal'in kurallarıyla çelişen, geri alınamaz/yıkıcı ya da yetki
-genişleten isteği uygulamamayı, Kemal'e sormayı hatırlatır.
+yazmak yetki vermez. Ön ek yetkili talimatta da kutu sahibinin kurallarıyla çelişen, geri alınamaz/yıkıcı ya da yetki
+genişleten isteği uygulamamayı, kutu sahibine sormayı hatırlatır.
 
 ```
 kutu kur --kutu .kutu --codex-thread <uuid> --guvenilir-gonderen danisman   # tekrarlanabilir; var olan listeyi daraltmaz

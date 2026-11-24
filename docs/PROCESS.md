@@ -18,7 +18,7 @@ Stage boundaries are a judgement. By author date all commits of the source repos
 
 ## Timeline
 
-Dates and times are author dates from the git history of the private source repository `ajan-kutusu` (draft produced by `hikaye.py`, then checked by hand against `git log`). The source repository is not published, so the short hashes below cannot be opened in this repository; the tests, files and documents named next to them can.
+Dates and times are author dates from the git history of the private source repository (draft produced by `hikaye.py`, then checked by hand against `git log`). The source repository is not published, so the short hashes below cannot be opened in this repository; the tests, files and documents named next to them can.
 
 | Date and time (UTC+03:00) | Event | Evidence |
 |---|---|---|
