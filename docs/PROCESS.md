@@ -1,0 +1,70 @@
+# How signed-agent-mailbox was developed
+
+> Short overview only. Facts (dates, commit hashes) come from git history and scripts and name their source. Opinions are labelled `Interpretation:`. Details of individual problems live in [devlog/](devlog/). This record was reconstructed on 2026-11-24 from the git history of the source repository and from the notes kept in it; it was not written during development.
+
+The project is a local message box for command-line agent sessions. In the code and in some documents it is still called `kutu` (Turkish for "box"); `signed-agent-mailbox` is the repository name.
+
+## Stages
+
+| # | Stage | Dates | Goal | Outcome | Evidence |
+|---|---|---|---|---|---|
+| 1 | First version and Codex delivery | 2026-11-18 | A message box between Claude Code and Codex with a durable log | Durable log, chat page, delivery to Codex through its official queue command and to Claude Code through its cross-session pipe, a `bekle` watcher, a `CODEX_HOME` setting | `0f80172`, `a485808`, `d26cde2`; devlog [Codex sandbox pipe error](devlog/2026-11-18-codex-sandbox-pipe-permission.md) |
+| 2 | One-shot adapters and signatures | 2026-11-18 | Reach more agent tools; make the sender label checkable | Adapters for Claude Code, Codex, Antigravity and Hermes one-shot modes, HMAC-SHA256 message signatures, an end-to-end script | `68d67ea`; devlog [Antigravity adapter bring-up](devlog/2026-11-18-agy-adapter-bring-up.md); decisions [0001](decisions/0001-hmac-sha256-signatures.md), [0002](decisions/0002-python-standard-library-only.md) |
+| 3 | Test and release hygiene | 2026-11-18 | Run the tests from the repository root; remove local paths and raw run records | Root-level test discovery, placeholders instead of local paths, synthetic example box | `51d5159`, `6f6dcb5`, `3255376`; devlog [root-level test discovery](devlog/2026-11-18-unittest-discover-from-repo-root.md) |
+| 4 | Pitfall docs, migration helper, trusted sender | 2026-11-18 | Document known traps; prepare a move from an unsigned box to a signed one; let a listed signed sender carry authority | `--claude-ad` warning, read-only `gecis-kontrol`, `guvenilir_gonderenler` setting | `93ed580`, `3bbc4fb`, `63acfd7`, `e52ced9`; devlog [`--claude-ad` default](devlog/2026-11-18-claude-ad-default-session.md); decision [0003](decisions/0003-untrusted-by-default-trusted-sender-list.md) |
+| 5 | Public release preparation | 2026-11-24 | Licence, standard files, CI definition, process documents, scans | The public history, see "Published history" | the published commit and the commits after it in this repository |
+
+Stage boundaries are a judgement. By author date all commits of the source repository fall on one calendar day (2026-11-18), so there are no gaps in activity to split on; the stages follow the subject lines of the commits and their order in time. `Interpretation:` stages 1 to 4 are one working session seen in four parts, not four separate periods.
+
+## Timeline
+
+Dates and times are author dates from the git history of the private source repository `ajan-kutusu` (draft produced by `hikaye.py`, then checked by hand against `git log`). The source repository is not published, so the short hashes below cannot be opened in this repository; the tests, files and documents named next to them can.
+
+| Date and time (UTC+03:00) | Event | Evidence |
+|---|---|---|
+| 2026-11-18 10:12 | First version of the message box | commit `0f80172` |
+| 2026-11-18 10:35 | `bekle` watcher; a Codex sandbox pipe permission error is recorded as a status instead of a failure | commit `a485808` |
+| 2026-11-18 10:42 | `--codex-home` setting passed to the Codex subprocess | commit `d26cde2` |
+| 2026-11-18 13:07 | One-shot adapters, HMAC signatures and the end-to-end script | commit `68d67ea` |
+| 2026-11-18 15:04 | Tests run from the repository root | commit `51d5159` |
+| 2026-11-18 15:10 | Local paths and user names replaced by placeholders | commit `6f6dcb5` |
+| 2026-11-18 15:11 | Raw run record removed from version control; example box regenerated with synthetic data | commit `3255376` |
+| 2026-11-18 15:17 | README: `--claude-ad` trap, signing, security limits; warning in `gonder` | commit `93ed580` |
+| 2026-11-18 15:22 | Read-only `gecis-kontrol` and the migration guide | commit `3bbc4fb` |
+| 2026-11-18 16:07 | Trusted sender list and the authority prefix | commits `63acfd7`, `e52ced9` |
+| 2026-11-24 | Public release preparation (stage 5) | commit `db28a49` in this repository |
+
+The source history has one working wave (hikaye.py output: one wave, one active day). The number of source commits and their date range are in the `hikaye.py` output that this table was derived from; [METRICS.md](METRICS.md) counts the history published here, not the source history.
+
+## Where to read more
+
+- Selected problems, each as problem, diagnosis, fix with evidence: [devlog/](devlog/)
+- Decisions and rejected options: [decisions/](decisions/)
+- Counts (commits, tests): [METRICS.md](METRICS.md), generated by script
+- AI use: [AI-USE.md](AI-USE.md)
+- Scans and publication-day status: [PRIVACY-CHECK.md](PRIVACY-CHECK.md)
+- Adapter results, root causes of the end-to-end run of 2026-11-18 (Turkish): [../OKU.tr.md](../OKU.tr.md)
+
+## Published history
+
+History option: A, a fresh single commit. Reason: single developer; the original history contains local paths and user names in older revisions (commit `6f6dcb5` replaced them in the working tree, but not in the earlier revisions), and a raw run record that was tracked until commit `3255376`. The original development history is not published; the stages and the timeline above keep the story. Commit counts and date ranges in [METRICS.md](METRICS.md) describe this repository, not the source repository.
+
+## Verification
+
+| What was checked | Command | Result | Date |
+|---|---|---|---|
+| Tests | `python -m unittest discover` | Ran 145 tests, OK (Windows 11, Python 3.12); same result as the METRICS.md test section | 2026-11-24 |
+| README example in a clean checkout | `python kutu.py kur`, `gonder --kuru`, `durum`, `sayfa` on a clean `git archive` extract of the committed tree | all four exited 0; `gonder --kuru` printed the command without running it and without recording anything | 2026-11-24 |
+| Secret and privacy scans | see [PRIVACY-CHECK.md](PRIVACY-CHECK.md) | see section 2 and 3 there | 2026-11-24 |
+
+The README example uses `--kuru` (dry run), so it does not call a real agent tool. Only the tool-adapter table in the README comes from a run against real tools, on 2026-11-18 (see [Known limits](#known-limits)).
+
+## Known limits
+
+- The tests use temporary folders and mocked subprocesses. They do not call real agent tools.
+- The last end-to-end run against real tools was on 2026-11-18 (13:03 by the record), before the final tests were added; its raw output is not published, only the summary in [OKU.tr.md](../OKU.tr.md).
+- `hermes-http` was tested only against a local fake server. The `opencode`, `gemini`, `copilot` and `cursor` adapters were written from each tool's documented one-shot command and never run against the real tool.
+- Signing keys are plain files in the same user account: a process that can read the key folder can sign as any agent. Replay of an identical signed line is not prevented. Both are documented in the README.
+- The Claude Code cross-session message format is not officially documented and may change between versions.
+- Windows is the platform the tool was developed on; Linux was exercised only through the unit tests.
+- This process record is reconstructed. Devlog entries state what the commits and tests show; where the source did not record an observation, the entry says so.

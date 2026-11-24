@@ -12,7 +12,7 @@ Default declaration (the maintainer's standing statement; it holds for this proj
 
 | Tool / model (version) | Role | Which parts of the project |
 |---|---|---|
-| AI coding agents (Claude Code; the model version of each change was not recorded) | Wrote the code, tests and documents under the maintainer's direction | The whole repository |
+| AI coding agents: Claude Code with Claude Sonnet 5.5 and Claude Opus 5.5 (per the `Co-Authored-By` trailers of the private source history: most commits name Sonnet 5.5; the two commits `d26cde2` and `a485808` name Opus 5.5; per-change model versions in the squashed public history are not separable) | Wrote the code, tests and documents under the maintainer's direction | The whole repository |
 | Independent AI reader(s): none recorded in this file | No independent AI read of this repository is recorded here | Findings only |
 
 ## What the human did
@@ -41,7 +41,7 @@ Wrote the Python modules (`kutu.py`, `kutu_imza.py`, `kutu_adaptor.py`, `kutu_ge
 
 ## Authorship in commits
 
-AI involvement is marked with an `Assisted-by: TOOL:MODEL` trailer in commits ([convention from the LLVM policy](https://llvm.org/docs/AIToolPolicy.html)). `Signed-off-by` appears only for the human maintainer; AI tools never sign off ([Linux kernel guidance](https://docs.kernel.org/process/coding-assistants.html)). The public history is a single squashed commit; this file is the record of AI involvement for the earlier private history.
+AI involvement is marked with an `Assisted-by: TOOL:MODEL` trailer in commits ([convention from the LLVM policy](https://llvm.org/docs/AIToolPolicy.html)). `Signed-off-by` appears only for the human maintainer; AI tools never sign off ([Linux kernel guidance](https://docs.kernel.org/process/coding-assistants.html)). The private source history used `Co-Authored-By: Claude ...` trailers (the form Claude Code writes by default), not `Assisted-by`; the public commits carry the same kind of trailer. The public history starts with a single squashed commit; this file is the record of AI involvement for the earlier private history.
 
 ## Copyright note
 
