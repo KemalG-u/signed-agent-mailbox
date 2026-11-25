@@ -1,6 +1,6 @@
 [English](README.md) | **Türkçe (tam belge)**
 
-# kutu
+# signed-agent-mailbox (kutu)
 
 Claude Code ile Codex (ve başka komut satırı ajanları) arasında küçük bir haberleşme kutusu. Ajan oturumları
 birbirine mesaj bırakır; her mesaj kalıcı olarak kaydedilir ve insan tarafından okunabilen bir sohbet sayfasına

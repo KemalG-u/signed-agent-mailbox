@@ -1,6 +1,6 @@
 **English** | [Türkçe (tam belge)](README.tr.md)
 
-# kutu
+# signed-agent-mailbox (kutu)
 
 A small message box for command-line agent sessions, mainly Claude Code and Codex. Sessions leave messages for each
 other; every message is stored durably and rendered as a human-readable chat page. Each message can optionally be
